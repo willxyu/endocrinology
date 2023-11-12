@@ -1,3 +1,5 @@
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="utf-8">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Onest:wght@400;500&display=swap');
 
@@ -70,8 +72,7 @@ body {
 <div id='clues' class='clues center'></div>
 </body>
 <script>
-// Thanks to Dr. McClelland
-  
+
 /* Special sorting functions */
 let chainsort = function(arr) {
     return function(a, b) {
@@ -91,6 +92,8 @@ let sort_by = function(field, reverse, primer) {
       return a == b ? 0 : reverse * ((a > b) - (b > a))
     }
   }
+  
+
 
 settings = {}
 
@@ -109,13 +112,21 @@ document.addEventListener("DOMContentLoaded", async function(event) {
   // Alter the CSS style for .cell
   addCSS(`.cell {width: ${settings.cell}px; height: ${settings.cell}px; }`)
   
-  // Push puzzle left
-  content.style.left = `calc(50% - 1/3*${w}px)`
+  if (window.innerWidth > 960) { 
+    // Push puzzle left
+    content.style.left = `calc(50% - 1/3*${w}px)`
  
-  // Resize Clues
-  let clues = document.querySelector('#clues')
-  clues.style = `width: calc(${w}px * 2/3 - 2*1.4em); height: calc(${h}px - 2*1.4em);`
-  clues.style.left = `calc(50% + 1/2*${w}px)`
+    // Resize Clues
+    let clues = document.querySelector('#clues')
+    clues.style = `width: calc(${w}px * 2/3 - 2*1.4em); height: calc(${h}px - 2*1.4em);`
+    clues.style.left = `calc(50% + 1/2*${w}px)`
+  } else {
+    // Resize Clues
+    let clues = document.querySelector('#clues')
+    clues.style = `width: calc(${w}px - 2*1.4em); height: calc(${h}px - 2*1.4em);`
+    clues.style.top = `calc(50% + ${h}px * 1)`
+    // clues.style.left = `calc(50% + 1/2*${w}px)`
+  }
 })
 
 generatePuzzle = function(data) {
@@ -206,6 +217,18 @@ generatePuzzle = function(data) {
     down += m
   })
   document.querySelector('#clues').insertAdjacentHTML('beforeend', across + '<br/>' + down)
+  
+  eventify()
+}
+
+eventify = function() {
+  document.querySelectorAll('.cell input').forEach(cell => {
+    cell.addEventListener('keyup', e => {
+      if (e.target.value.length == 1) {
+        e.nextElementSibling.focus()
+      }
+    })
+  })
 }
 
 class Clue {
