@@ -1,6 +1,9 @@
 endocrine = (function(){
 
   /* Calcium */
+  let hammersmith = function( serumCr, serumCa, urineCa, urineCr ) {
+    return (urineCa * serumCr/1000) / (serumCa * urineCr) 
+  }
   let phosphaturia = function(creatinine, phosphate, urineCreatinine, urinePhosphate) {
     return (1 - (urinePhosphate/phosphate) * (creatinine/(urineCreatinine*1000))) * phosphate
   }
@@ -41,6 +44,7 @@ endocrine = (function(){
   }
 
   return {
+    hammersmith : hammersmith,
     phosphaturia: phosphaturia,
     eag         : eag,
     homaIR      : homaIR,
