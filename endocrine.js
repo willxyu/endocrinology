@@ -18,6 +18,11 @@ endocrine = (function(){
   let mmol2mg = function( bgl ) {
     return bgl * 18.018
   }
+
+  /* Electrolytes */
+  let calcOsm = function( sodium, urea, glucose ) {
+    return 2 * sodium + urea + glucose
+  }
   
   /* Metabolic */
   let bmi = function( weight, height ) {
@@ -25,6 +30,9 @@ endocrine = (function(){
   }
 
   /* Obesity */
+  let bodyfat = function( weight, height, age, gender ) {
+    return (1.2 * weight / (height/100 * height/100)) + 0.23 * age - (gender === 1 ? 5.4 : 16.2)
+  }
   let rmrHarris = function( weight, height, age, gender ) {
     return (gender === 1 ? 9.247 : 13.397) * weight + (gender === 1 ? 3.098 : 4.799) * height - (gender === 1 ? 4.330 : 5.677) * age + (gender === 1 ? 447.593 : 88.362)
   }
@@ -39,6 +47,7 @@ endocrine = (function(){
     mg2mmol     : mg2mmol,
     mmol2mg     : mmol2mg,
     bmi         : bmi,
+    bodyfat     : bodyfat,
     rmrHarris   : rmrHarris,
     rmrMifflin  : rmrMifflin,
   }
