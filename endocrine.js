@@ -26,6 +26,9 @@ endocrine = (function(){
   let calcOsm = function( sodium, urea, glucose ) {
     return 2 * sodium + urea + glucose
   }
+  let correctSodium = function( measuredSodium, bgl ) {
+    return measuredSodium + 1.6 * (bgl * 18.018 - 100)/100
+  }
   
   /* Metabolic */
   let bmi = function( weight, height ) {
@@ -43,16 +46,24 @@ endocrine = (function(){
     return (10 * weight) + (6.25 * height) - (5 * age) + (gender ? -161 : 5)
   }
 
+  /* Miscellaneous */
+  let bsa = function( weight, height ) {
+    return 0.007184 * Math.pow( height, 0.725 ) * Math.pow( weight, 0.425 )
+  }
+
   return {
-    hammersmith : hammersmith,
-    phosphaturia: phosphaturia,
-    eag         : eag,
-    homaIR      : homaIR,
-    mg2mmol     : mg2mmol,
-    mmol2mg     : mmol2mg,
-    bmi         : bmi,
-    bodyfat     : bodyfat,
-    rmrHarris   : rmrHarris,
-    rmrMifflin  : rmrMifflin,
+    hammersmith  : hammersmith,
+    phosphaturia : phosphaturia,
+    eag          : eag,
+    homaIR       : homaIR,
+    mg2mmol      : mg2mmol,
+    mmol2mg      : mmol2mg,
+    calcOsm      : calcOsm,
+    correctSodium: correctSodium,
+    bmi          : bmi,
+    bodyfat      : bodyfat,
+    rmrHarris    : rmrHarris,
+    rmrMifflin   : rmrMifflin,
+    bsa          : bsa,
   }
 })()
