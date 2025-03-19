@@ -4,6 +4,20 @@ endocrine = (function(){
   let phosphaturia = function(creatinine, phosphate, urineCreatinine, urinePhosphate) {
     return (1 - (urinePhosphate/phosphate) * (creatinine/(urineCreatinine*1000))) * phosphate
   }
+
+  /* Diabetes */
+  let eag = function( hba1c ) {
+    return 0.0555 * (28.7 * hba1c - 46.7)
+  }
+  let homaIR = function( insulin, glucose ) { /* unverified units */
+    return (insulin * glucose * 18.018)/405
+  }
+  let mg2mmol = function( bgl ) {
+    return bgl * 0.0555
+  }
+  let mmol2mg = function( bgl ) {
+    return bgl * 18.018
+  }
   
   /* Metabolic */
   let bmi = function( weight, height ) {
@@ -20,6 +34,10 @@ endocrine = (function(){
 
   return {
     phosphaturia: phosphaturia,
+    eag         : eag,
+    homaIR      : homaIR,
+    mg2mmol     : mg2mmol,
+    mmol2mg     : mmol2mg,
     bmi         : bmi,
     rmrHarris   : rmrHarris,
     rmrMifflin  : rmrMifflin,
